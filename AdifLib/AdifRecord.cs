@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdifLib
+namespace M0LTE.AdifLib
 {
     public class AdifRecord
     {
