@@ -1,6 +1,7 @@
 using FluentAssertions;
 using M0LTE.AdifLib;
 using System;
+using System.Globalization;
 using Xunit;
 
 namespace AdifLibTests
@@ -50,8 +51,8 @@ namespace AdifLibTests
             adifFile.Records[0].Mode.Should().Be("FT8");
             adifFile.Records[0].RstSent.Should().Be("+01");
             adifFile.Records[0].RstReceived.Should().Be("-01");
-            adifFile.Records[0].QsoStart.Should().Be(DateTime.Parse("2020-08-23T14:37:30Z"));
-            adifFile.Records[0].QsoEnd.Should().Be(DateTime.Parse("2020-08-23T14:38:30Z"));
+            adifFile.Records[0].QsoStart.Should().Be(DateTime.Parse("2020-08-23T15:37:30Z", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal));
+            adifFile.Records[0].QsoEnd.Should().Be(DateTime.Parse("2020-08-23T15:38:30Z", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal));
             adifFile.Records[0].Band.Should().Be("10m");
             adifFile.Records[0].FreqMHz.Should().Be("28.074712");
             adifFile.Records[0].StationCallsign.Should().Be("M0LTE");
