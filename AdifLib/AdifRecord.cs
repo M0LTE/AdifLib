@@ -6,39 +6,15 @@ namespace M0LTE.AdifLib
 {
     public class AdifRecord
     {
+        internal AdifRecord() { }
+
         public Dictionary<string, string> Fields { get; private set; } = new Dictionary<string, string>();
 
-        public DateTime QsoStart
-        {
-            get
-            {
-                if (!Fields.TryGetValue("qso_date", out string qsoDate)) return default;
-                if (!Fields.TryGetValue("time_on", out string timeOn)) return default;
-                if (qsoDate.Length != 8) return default;
-                if (timeOn.Length != 6) return default;
-
-                if (!int.TryParse(qsoDate.Substring(0, 4), out int year)) return default;
-                if (!int.TryParse(qsoDate.Substring(4, 2), out int month)) return default;
-                if (!int.TryParse(qsoDate.Substring(6, 2), out int day)) return default;
-                if (!int.TryParse(timeOn.Substring(0, 2), out int hour)) return default;
-                if (!int.TryParse(timeOn.Substring(2, 2), out int min)) return default;
-                if (!int.TryParse(timeOn.Substring(4, 2), out int sec)) return default;
-
-                return new DateTime(year, month, day, hour, min, sec, DateTimeKind.Utc);
-            }
-        }
-
-        public string Call
-        {
-            get => Fields.TryGetValue("call", out string value) ? value : null;
-            set => SetField("call", value);
-        }
-
-        private void SetField(string fieldName, string value) => Fields[fieldName] = value;
+        protected void SetField(string fieldName, string value) => Fields[fieldName] = value;
 
         public override string ToString() => string.Join(" ", Fields.Select(f => $"<{f.Key}:{f.Value.Length}>{f.Value}")) + " <eor>";
 
-        public static bool TryParse(string record, out AdifRecord adifRecord, out string error)
+        internal static bool TryParse(string record, out AdifRecord adifRecord, out string error)
         {
             adifRecord = new AdifRecord();
 
@@ -112,10 +88,9 @@ namespace M0LTE.AdifLib
             error = null;
             return true;
         }
-
-        private enum ParseState
-        {
-            LookingForStartOfRecord, FieldName, FieldLen, Data
-        }
+    }
+    internal enum ParseState
+    {
+        LookingForStartOfRecord, FieldName, FieldLen, Data
     }
 }
