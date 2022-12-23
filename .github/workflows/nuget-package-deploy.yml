@@ -21,8 +21,12 @@ jobs:
       - name: Package
         run: dotnet pack --configuration Release AdifLib/AdifLib.csproj
       - name: Push package to nuget
-        run: dotnet nuget push **/*.nupkg
-              --api-key ${{ secrets.NUGET_DEPLOY_KEY }}
-              --source https://api.nuget.org/v3/index.json
-              --skip-duplicate
-              -n 1
+        uses: alirezanet/publish-nuget@v3
+        with:
+          PROJECT_FILE_PATH: AdifLib/AdifLib.csproj
+          VERSION_REGEX: <Version>(.*)<\/Version>
+          TAG_COMMIT: true
+          TAG_FORMAT: v*
+          INCLUDE_SYMBOLS: true
+          NO_BUILD: true
+          NUGET_KEY: ${{secrets.NUGET_DEPLOY_KEY}}        
