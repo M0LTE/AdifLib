@@ -18,15 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Package
-        run: dotnet pack --configuration Release AdifLib/AdifLib.csproj
       - name: Push package to nuget
-        uses: alirezanet/publish-nuget@v3
+        uses: alirezanet/publish-nuget@v3.0.0
         with:
           PROJECT_FILE_PATH: AdifLib/AdifLib.csproj
           VERSION_REGEX: <Version>(.*)<\/Version>
           TAG_COMMIT: true
           TAG_FORMAT: v*
           INCLUDE_SYMBOLS: true
-          NO_BUILD: true
           NUGET_KEY: ${{secrets.NUGET_DEPLOY_KEY}}        
