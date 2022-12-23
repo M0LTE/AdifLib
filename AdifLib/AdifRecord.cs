@@ -8,7 +8,7 @@ namespace M0LTE.AdifLib
     {
         internal AdifRecord() { }
 
-        public Dictionary<string, string> Fields { get; private set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Fields { get; private set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         protected void SetField(string fieldName, string value) => Fields[fieldName] = value;
 

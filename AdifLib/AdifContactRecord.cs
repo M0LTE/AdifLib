@@ -12,7 +12,12 @@ namespace M0LTE.AdifLib
 
         public DateTime QsoEnd
         {
-            get => GetQsoDateTime("qso_date_off", "time_off");
+            get
+            {
+                var result = GetQsoDateTime("qso_date_off", "time_off");
+                return result != default ? result : GetQsoDateTime("qso_date", "time_off");
+            }
+
             set => SetQsoDateTime("qso_date_off", "time_off", value);
         }
 
@@ -81,6 +86,12 @@ namespace M0LTE.AdifLib
             set => SetField("freq", value);
         }
 
+        public string FreqRxMHz
+        {
+            get => Fields.TryGetValue("freq_rx", out string value) ? value : null;
+            set => SetField("freq_rx", value);
+        }
+
         public string StationCallsign
         {
             get => Fields.TryGetValue("station_callsign", out string value) ? value : null;
@@ -97,6 +108,24 @@ namespace M0LTE.AdifLib
         {
             get => Fields.TryGetValue("tx_pwr", out string value) ? value : null;
             set => SetField("tx_pwr", value);
+        }
+        
+        public string Operator
+        {
+            get => Fields.TryGetValue("operator", out string value) ? value : null;
+            set => SetField("operator", value);
+        }
+
+        public int? CQZone
+        {
+            get => Fields.TryGetValue("cqz", out string value) ? int.Parse(value) : (int?)null;
+            set => SetField("cqz", value == null ? null : value.ToString());
+        }
+
+        public string TransmittedSerial
+        {
+            get => Fields.TryGetValue("stx", out string value) ? value : null;
+            set => SetField("stx", value);
         }
 
         public static bool TryParse(string record, out AdifContactRecord adifContactRecord, out string error)
