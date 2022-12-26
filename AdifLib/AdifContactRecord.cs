@@ -80,6 +80,12 @@ namespace M0LTE.AdifLib
             set => SetField("band", value);
         }
 
+        public string Country
+        {
+            get => Fields.TryGetValue("country", out string value) ? value : null;
+            set => SetField("country", value);
+        }
+
         public string FreqMHz
         {
             get => Fields.TryGetValue("freq", out string value) ? value : null;
@@ -128,7 +134,7 @@ namespace M0LTE.AdifLib
             set => SetField("stx", value);
         }
 
-        public static bool TryParse(string record, out AdifContactRecord adifContactRecord, out string error)
+        /*public static bool TryParse(string record, out AdifContactRecord adifContactRecord, out string error)
         {
             if (AdifRecord.TryParse(record, out var adifRecord, out error))
             {
@@ -145,6 +151,6 @@ namespace M0LTE.AdifLib
 
             adifContactRecord = null;
             return false;
-        }
+        }*/
     }
 }

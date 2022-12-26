@@ -20,7 +20,7 @@ namespace AdifLibTests
             target.ToString().Should().Be("<call:5>M0LTE <eor>");
         }
 
-        [Fact]
+        /*[Fact]
         public void ObjectFromRecord()
         {
             AdifContactRecord.TryParse("<call:5>M0LTE <eor>", out var record, out string error).Should().BeTrue();
@@ -28,7 +28,7 @@ namespace AdifLibTests
             error.Should().BeNull();
             record.Call.Should().Be("M0LTE");
             record.Fields["call"].Should().Be("M0LTE");
-        }
+        }*/
 
         [Fact]
         public void FileObjectFromString()
@@ -124,6 +124,91 @@ Contest Name: CQWWSSB - 2022-10-29
             r1.Operator.Should().Be("M0LTE");
             r1.CQZone.Should().Be(16);
             r1.TransmittedSerial.Should().Be("1");
+        }
+
+        [Fact]
+        public void CloudlogExport()
+        {
+            const string adif = @"Cloudlog ADIF export
+<ADIF_VER:5>3.1.2
+<PROGRAMID:8>Cloudlog
+<PROGRAMVERSION:11>Version 1.7
+<EOH>
+
+<BAND:3>20m
+<CALL:5>S79KW
+<COUNTRY:18>Seychelles Islands  
+<CQZ:2>39
+<DXCC:3>379
+<EQSL_QSL_SENT:1>Y
+<GRIDSQUARE:6>LI75rj
+<LOTW_QSL_RCVD:1>Y
+<LOTW_QSL_SENT:1>Y
+<MODE:3>FT8
+<QSL_RCVD:1>N
+<QSL_SENT:1>N
+<RST_RCVD:3>-11
+<RST_SENT:3>-16
+<TX_PWR:3>400
+<EQSL_QSLSDATE:8>20201101
+<LOTW_QSLRDATE:8>20201109
+<LOTW_QSLSDATE:8>20201101
+<FREQ:9>14.075995
+<QSO_DATE:8>20201101
+<TIME_ON:6>072900
+<QSO_DATE_OFF:8>20201101
+<TIME_OFF:6>072900
+<STATION_CALLSIGN:5>M0LTE
+<MY_CITY:7>Reading
+<MY_COUNTRY:7>ENGLAND
+<MY_DXCC:3>223
+<MY_GRIDSQUARE:6>IO91lk
+<MY_CQ_ZONE:2>14
+<MY_ITU_ZONE:2>27
+<MY_CNTY:3>223
+<eor>
+
+<BAND:3>20m
+<CALL:5>UN7ZV
+<COUNTRY:10>Kazakhstan
+<CQZ:2>17
+<DXCC:3>130
+<EQSL_QSL_RCVD:1>Y
+<EQSL_QSL_SENT:1>Y
+<GRIDSQUARE:6>MO51rd
+<LOTW_QSL_RCVD:1>Y
+<LOTW_QSL_SENT:1>Y
+<MODE:3>FT8
+<QSL_RCVD:1>N
+<QSL_SENT:1>N
+<RST_RCVD:3>-10
+<RST_SENT:3>-17
+<TX_PWR:3>400
+<EQSL_QSLRDATE:8>20201101
+<EQSL_QSLSDATE:8>20201101
+<LOTW_QSLRDATE:8>20201101
+<LOTW_QSLSDATE:8>20201101
+<FREQ:9>14.075995
+<QSO_DATE:8>20201101
+<TIME_ON:6>075300
+<QSO_DATE_OFF:8>20201101
+<TIME_OFF:6>075600
+<STATION_CALLSIGN:5>M0LTE
+<MY_CITY:7>Reading
+<MY_COUNTRY:7>ENGLAND
+<MY_DXCC:3>223
+<MY_GRIDSQUARE:6>IO91lk
+<MY_CQ_ZONE:2>14
+<MY_ITU_ZONE:2>27
+<MY_CNTY:3>223
+<eor>";
+
+            AdifFile.TryParse(adif, out var file).Should().BeTrue();
+
+            file.Records.Count.Should().Be(2);
+            file.Records[0].Fields.Count.Should().Be(31);
+            file.Records[0].Band.Should().Be("20m");
+            file.Records[0].Country.Should().Be("Seychelles Islands");
         }
     }
 }
