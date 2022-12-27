@@ -277,6 +277,7 @@ From 20/12/2022 to 21/12/2022           Distance over: 0 Km.
             adifFile.Records[1].QsoEnd.Should().Be(new DateTime(2022, 12, 20, 18, 34, 0));
             adifFile.Records[1].Call.Should().Be("LZ1SAD");
             adifFile.Records[1].RstSent.Should().Be("-11");
+            adifFile.Records[1].Operator.Should().Be("G0DJA");
         }
 
         [Fact]
