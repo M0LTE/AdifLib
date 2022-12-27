@@ -107,8 +107,8 @@ namespace M0LTE.AdifLib
                         {
                             dataBuilder.Append(c);
                             dataCur++;
+                            cursor++;
                         }
-                        cursor++;
                         continue;
                     }
                 }

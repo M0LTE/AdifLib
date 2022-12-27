@@ -32,15 +32,18 @@ namespace M0LTE.AdifLib
             if (!Fields.TryGetValue(dateField, out string date)) return default;
             if (!Fields.TryGetValue(timeField, out string time)) return default;
             if (date.Length != 8) return default;
-            if (time.Length != 6) return default;
+            if (time.Length != 6 && time.Length != 4) return default;
 
-            if (!int.TryParse(date.Substring(0, 4), out int year)) return default;
-            if (!int.TryParse(date.Substring(4, 2), out int month)) return default;
-            if (!int.TryParse(date.Substring(6, 2), out int day)) return default;
-            if (!int.TryParse(time.Substring(0, 2), out int hour)) return default;
-            if (!int.TryParse(time.Substring(2, 2), out int min)) return default;
-            if (!int.TryParse(time.Substring(4, 2), out int sec)) return default;
-
+            if (!int.TryParse(date.Substring(0, 4), out int year) || year < 1900 || year > 2100) return default;
+            if (!int.TryParse(date.Substring(4, 2), out int month) || month > 12 || month < 0) return default;
+            if (!int.TryParse(date.Substring(6, 2), out int day) || day < 1 || day > 31) return default;
+            if (!int.TryParse(time.Substring(0, 2), out int hour) || hour >= 24 || hour < 0) return default;
+            if (!int.TryParse(time.Substring(2, 2), out int min) || min >= 60 || min < 0) return default;
+            int sec = 0;
+            if (time.Length == 6)
+            {
+                if (!int.TryParse(time.Substring(4, 2), out sec) || sec >= 60 || sec < 0) return default;
+            }
             return new DateTime(year, month, day, hour, min, sec, DateTimeKind.Utc);
         }
 
