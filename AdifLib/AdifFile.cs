@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace M0LTE.AdifLib
 {
@@ -11,20 +12,28 @@ namespace M0LTE.AdifLib
 
         public static bool TryParse(string adif, out AdifFile adifFile)
         {
+            return TryParse(adif, out adifFile, out _);
+        }
+
+        public static bool TryParse(string adif, out AdifFile adifFile, out string reason)
+        {
             if (string.IsNullOrWhiteSpace(adif))
             {
-                throw new ArgumentException("adif is null or empty");
+                reason = "No ADIF data";
+                adifFile = null;
+                return false;
             }
 
-            var parts = adif.Split(new string[] { "<EOH>" }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = Regex.Split(adif, "<eoh>", RegexOptions.IgnoreCase);
 
             if (parts.Length == 2)
             {
                 adifFile = new AdifFile();
 
-                if (!AdifHeaderRecord.TryParse(parts[0], out var header, out _))
+                if (!AdifHeaderRecord.TryParse(parts[0], out var header, out var error))
                 {
                     adifFile = null;
+                    reason = error;
                     return false;
                 }
 
@@ -113,9 +122,11 @@ namespace M0LTE.AdifLib
                     }
                 }
 
+                reason = null;
                 return true;
             }
 
+            reason = $"There were {parts.Length} parts instead of 2";
             adifFile = null;
             return false;
         }

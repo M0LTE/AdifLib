@@ -1290,5 +1290,125 @@ From 20/12/2022 to 21/12/2022           Distance over: 0 Km.
 
             adifFile.Records.Last().Call.Should().Be("OK2ZCH");
         }
+
+        [Fact]
+        public void Qrz()
+        {
+            const string adif = @"QRZLogbook download for g6nwf
+    Date: Tue Dec 27 12:11:48 2022
+    Bookid: 313258
+    Records: 139
+    <ADIF_VER:5>3.1.1
+    <PROGRAMID:10>QRZLogbook
+    <PROGRAMVERSION:3>2.0
+    <eoh>
+<app_qrzlog_logid:9>844684627
+<app_qrzlog_qsldate:8>20221210
+<app_qrzlog_status:1>C
+<band:3>40m
+<band_rx:3>40m
+<call:6>JR1LZK
+<comment:25>FT8  Sent: -15  Rcvd: -19
+<cont:2>AS
+<country:5>Japan
+<cqz:2>25
+<distance:4>9609
+<dxcc:3>339
+<email:18>tasaki27@gmail.com
+<freq:7>7.07512
+<freq_rx:7>7.07512
+<gridsquare:6>QM06FI
+<iota:6>AS-007
+<ituz:1>3
+<lat:11>N036 22.174
+<lon:11>E140 29.950
+<lotw_qsl_rcvd:1>Y
+<lotw_qsl_sent:1>Y
+<lotw_qslrdate:8>20221210
+<lotw_qslsdate:8>20221209
+<mode:3>FT8
+<my_city:7>Bristol
+<my_country:7>England
+<my_cq_zone:2>14
+<my_gridsquare:6>IO81RK
+<my_itu_zone:2>27
+<my_lat:11>N051 26.200
+<my_lon:11>W002 32.600
+<my_name:13>Roger O Parry
+<name:13>YUTAKA TASAKI
+<qrzcom_qso_upload_date:8>20221209
+<qrzcom_qso_upload_status:1>Y
+<qsl_rcvd:1>N
+<qsl_sent:1>N
+<qsl_via:21>DIRECT/LOTW/BURO/eQSL
+<qso_date:8>20221209
+<qso_date_off:8>20221209
+<qth:13>MITO, IBARAKI
+<rst_rcvd:3>-19
+<rst_sent:3>-15
+<station_callsign:5>G6NWF
+<time_off:4>0801
+<time_on:4>0801
+<tx_pwr:2>60
+<eor>
+
+<app_qrzlog_logid:9>844684730
+<app_qrzlog_qsldate:8>20221209
+<app_qrzlog_status:1>C
+<band:3>40m
+<band_rx:3>40m
+<call:6>JR1FYS
+<comment:25>FT8  Sent: -07  Rcvd: -09
+<cont:2>AS
+<country:5>Japan
+<cqz:2>25
+<distance:4>9645
+<dxcc:3>339
+<email:16>jr1fys@gmail.com
+<freq:7>7.07512
+<freq_rx:7>7.07512
+<gridsquare:6>QM05EX
+<iota:6>AS-007
+<ituz:2>45
+<lat:11>N035 58.576
+<lon:11>E140 21.317
+<lotw_qsl_rcvd:1>Y
+<lotw_qsl_sent:1>Y
+<lotw_qslrdate:8>20221209
+<lotw_qslsdate:8>20221209
+<mode:3>FT8
+<my_city:7>Bristol
+<my_country:7>England
+<my_cq_zone:2>14
+<my_gridsquare:6>IO81RK
+<my_itu_zone:2>27
+<my_lat:11>N051 26.200
+<my_lon:11>W002 32.600
+<my_name:13>Roger O Parry
+<name:15>Hiroshi Nagaosa
+<qrzcom_qso_upload_date:8>20221209
+<qrzcom_qso_upload_status:1>Y
+<qsl_rcvd:1>N
+<qsl_sent:1>N
+<qsl_via:20>BUREAU, DIRECT, LOTW
+<qso_date:8>20221209
+<qso_date_off:8>20221209
+<qth:18>Inashiki, Ibaraki,
+<rst_rcvd:3>-09
+<rst_sent:3>-07
+<station_callsign:5>G6NWF
+<time_off:4>0803
+<time_on:4>0802
+<tx_pwr:2>60
+<eor>";
+
+            var parsed = AdifFile.TryParse(adif, out var adifFile, out var reason);
+
+            reason.Should().BeNull();
+            parsed.Should().BeTrue();
+
+            adifFile.Records.Count.Should().Be(2);
+            adifFile.Records[1].Fields["name"].Should().Be("Hiroshi Nagaosa");
+        }
     }
 }
