@@ -65,6 +65,12 @@ namespace M0LTE.AdifLib
             set => SetField("mode", value);
         }
 
+        public string SubMode
+        {
+            get => Fields.TryGetValue("submode", out string value) ? value : null;
+            set => SetField("submode", value);
+        }
+
         public string RstSent
         {
             get => Fields.TryGetValue("rst_sent", out string value) ? value : null;
