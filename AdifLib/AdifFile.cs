@@ -93,7 +93,7 @@ namespace M0LTE.AdifLib
                         if (c == '>')
                         {
                             state = State.ReadingData;
-                            dataLength = int.Parse(fieldLengthBuilder.ToString());
+                            dataLength = int.Parse(fieldLengthBuilder.ToString().Split(':')[0]);//fieldLength may be followed by optional : DataType
                             dataCur = 0;
                             dataBuilder.Clear();
                         }
