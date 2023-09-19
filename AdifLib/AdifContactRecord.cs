@@ -25,8 +25,8 @@ namespace M0LTE.AdifLib
 
         private void SetQsoDateTime(string dateField, string timeField, DateTime value)
         {
-            Fields[dateField] = value.ToString("yyyyMMdd");
-            Fields[timeField] = value.ToString("HHmmss");
+            Fields[dateField] = value.ToUniversalTime().ToString("yyyyMMdd");
+            Fields[timeField] = value.ToUniversalTime().ToString("HHmmss");
         }
 
         private DateTime GetQsoDateTime(string dateField, string timeField)
@@ -144,24 +144,5 @@ namespace M0LTE.AdifLib
             get => Fields.TryGetValue("stx", out string value) ? value : null;
             set => SetField("stx", value);
         }
-
-        /*public static bool TryParse(string record, out AdifContactRecord adifContactRecord, out string error)
-        {
-            if (AdifRecord.TryParse(record, out var adifRecord, out error))
-            {
-                adifContactRecord = new AdifContactRecord();
-
-                foreach (var kvp in adifRecord.Fields)
-                {
-                    adifContactRecord.Fields.Add(kvp.Key, kvp.Value);
-                }
-
-                error = null;
-                return true;
-            }
-
-            adifContactRecord = null;
-            return false;
-        }*/
     }
 }

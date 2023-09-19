@@ -1445,7 +1445,8 @@ File output restricted to QSOs by : All Operators - All Bands - All Modes
         public void WriteAdifWithNull()
         {
             var adifFile = new AdifFile();
-            adifFile.Records.Add(new AdifContactRecord { 
+            adifFile.Records.Add(new AdifContactRecord
+            {
                 GridSquare = null
             });
             adifFile.ToString().Replace("\r\n", "\n").Should().Be("<eoh>\n\n\n<eor>");
@@ -1632,5 +1633,22 @@ File output restricted to QSOs by : All Operators - All Bands - All Modes
 <APP_LOGGER32_LNG:6>-21.92
 <eor>".Replace("\r\n", "\n"));
         }
+
+        [Fact]
+        public void TimeZoneHandling()
+        {
+            var qsoStart = DateTime.ParseExact("20230919155059", "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+
+            var record = new AdifContactRecord { QsoStart = qsoStart };
+
+            var output = record.ToString();
+
+            NormaliseLineBreaks(output).Should().Be(NormaliseLineBreaks(@"<qso_date:8>20230919
+<time_on:6>155059
+<eor>"));
+        }
+
+
+        private static string NormaliseLineBreaks(string output) => output?.Replace("\r\n", "\n");
     }
 }
