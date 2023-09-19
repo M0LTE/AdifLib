@@ -1442,6 +1442,16 @@ File output restricted to QSOs by : All Operators - All Bands - All Modes
         }
 
         [Fact]
+        public void WriteAdifWithNull()
+        {
+            var adifFile = new AdifFile();
+            adifFile.Records.Add(new AdifContactRecord { 
+                GridSquare = null
+            });
+            adifFile.ToString().Replace("\r\n", "\n").Should().Be("<eoh>\n\n\n<eor>");
+        }
+
+        [Fact]
         public void WriteAdif()
         {
             const string adif = @"ADIF Export from Logger32 Version [4.0]
@@ -1468,7 +1478,7 @@ File output restricted to QSOs by : All Operators - All Bands - All Modes
 
             adifFile.ToString().Replace("\r\n", "\n").Should().Be(@"<PROGRAMID:8>LOGGER32
 <PROGRAMVERSION:7>4.0.311
-<eor>
+<eoh>
 
 <BAND:3>40m
 <CALL:6>GD4VBA

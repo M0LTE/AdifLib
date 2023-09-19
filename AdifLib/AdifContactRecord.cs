@@ -4,6 +4,8 @@ namespace M0LTE.AdifLib
 {
     public class AdifContactRecord :AdifRecord
     {
+        protected override string EndMarker => "<eor>";
+
         public DateTime QsoStart
         {
             get => GetQsoDateTime("qso_date", "time_on");

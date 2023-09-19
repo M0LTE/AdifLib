@@ -2,6 +2,8 @@
 {
     public class AdifHeaderRecord : AdifRecord
     {
+        protected override string EndMarker => "<eoh>";
+
         public string AdifVersion
         {
             get => Fields.TryGetValue("adif_ver", out string value) ? value : null;
