@@ -18,7 +18,7 @@ namespace AdifLibTests
             target.Fields.Should().ContainKey("call");
             target.Fields["call"].Should().Be(call);
             target.Call.Should().Be(call);
-            target.ToString().Should().Be("<call:5>M0LTE\r\n<eor>");
+            target.ToString().Should().Be("<call:5>M0LTE\n<eor>");
         }
 
         /*[Fact]
@@ -1466,7 +1466,7 @@ File output restricted to QSOs by : All Operators - All Bands - All Modes
 
             AdifFile.TryParse(adif, out var adifFile);
 
-            adifFile.ToString().Should().Be(@"<PROGRAMID:8>LOGGER32
+            adifFile.ToString().Replace("\r\n", "\n").Should().Be(@"<PROGRAMID:8>LOGGER32
 <PROGRAMVERSION:7>4.0.311
 <eor>
 
@@ -1620,7 +1620,7 @@ File output restricted to QSOs by : All Operators - All Bands - All Modes
 <COUNTRY:7>Romania
 <APP_LOGGER32_LAT:5>45.74
 <APP_LOGGER32_LNG:6>-21.92
-<eor>");
+<eor>".Replace("\r\n", "\n"));
         }
     }
 }
