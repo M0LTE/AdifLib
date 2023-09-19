@@ -12,7 +12,7 @@ namespace M0LTE.AdifLib
 
         protected void SetField(string fieldName, string value) => Fields[fieldName] = value;
 
-        public override string ToString() => string.Join(" ", Fields.Select(f => $"<{f.Key}:{f.Value.Length}>{f.Value}")) + " <eor>";
+        public override string ToString() => string.Join(Environment.NewLine, Fields.Select(f => $"<{f.Key}:{f.Value.Length}>{f.Value}")) + Environment.NewLine + "<eor>";
 
         internal static bool TryParse(string record, out AdifRecord adifRecord, out string error)
         {

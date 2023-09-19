@@ -140,6 +140,17 @@ namespace M0LTE.AdifLib
             ReadingData
         }
 
-
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(Header.ToString());
+            sb.AppendLine();
+            foreach (var record in Records)
+            {
+                sb.AppendLine(record.ToString());
+                sb.AppendLine();
+            }
+            return sb.ToString().Trim();
+        }
     }
 }
